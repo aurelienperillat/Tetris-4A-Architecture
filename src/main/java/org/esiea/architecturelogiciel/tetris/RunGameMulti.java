@@ -32,7 +32,7 @@ public class RunGameMulti implements Runnable{
 	public void run() {
 		boolean needPiece = true;
 		boolean down;
-		Thread t = new Thread(new Reception(in));
+		Thread t = new Thread(new Reception(in,this));
 		t.start();
 		
 		while (true){
@@ -134,6 +134,8 @@ public class RunGameMulti implements Runnable{
 
 		grille.addPiece(currentPiece, posX, posY, position);
 	}
+	
+	
 	
 	public void addGameOverListener(GameOverListener listener){
 		listeners.add(GameOverListener.class, listener);
