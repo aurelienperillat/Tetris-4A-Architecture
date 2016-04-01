@@ -17,7 +17,12 @@ public class Reception implements Runnable{
 			try {
 				String message = in.readLine();
 				System.out.println(message);
-				runGame.fallDown();
+				int type = (int) ( 1 + ( Math.random() * (2 - 1) ) );
+				if(type == 1)
+					runGame.fallDown();
+				if(type == 2)
+					runGame.changePiece();
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

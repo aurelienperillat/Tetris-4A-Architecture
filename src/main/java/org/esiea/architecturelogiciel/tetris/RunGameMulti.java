@@ -135,7 +135,11 @@ public class RunGameMulti implements Runnable{
 		grille.addPiece(currentPiece, posX, posY, position);
 	}
 	
-	
+	public void changePiece() {
+		grille.removePiece(currentPiece, posX, posY, position);
+		pieceGetter.getPiece(currentPiece);
+		grille.addPiece(currentPiece, posX, posY, position);
+	}
 	
 	public void addGameOverListener(GameOverListener listener){
 		listeners.add(GameOverListener.class, listener);
