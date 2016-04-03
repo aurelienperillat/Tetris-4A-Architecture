@@ -25,8 +25,6 @@ public class App extends JFrame implements KeyListener, ActionListener, GameOver
 	private JPanel framePanel;
 	private CardLayout frameLayout;
 	private int witchRun = 0;
-	public static BufferedReader in;
-	public static PrintWriter out;
 	
     public static final long serialVersionUID = 234567901;
     
@@ -131,6 +129,15 @@ public class App extends JFrame implements KeyListener, ActionListener, GameOver
 		}
 		
 		if(arg0.getSource() == connexion.getRetour()){
+			try {
+				if(connexion.getSocket() != null)
+					connexion.getSocket().close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			connexion.getStatut().setText("");
+			connexion.getStart().setVisible(false);
 	    	frameLayout.show(framePanel, "accueil");
 	    	this.requestFocus();
 		}
@@ -166,11 +173,13 @@ public class App extends JFrame implements KeyListener, ActionListener, GameOver
 			trunGame = new Thread(runGame);
 			runGame.getGrille().cleanGrille();
 	    	frameLayout.show(framePanel, "grille");
+	    	runGame.getGrille().resetScore();
 	    	this.requestFocus();
 	    	trunGame.start();
 		}
 		if(rang == 1){
 			frameLayout.show(framePanel, "accueil");
+			runGame.getGrille().resetScore();
 	    	this.requestFocus();
 		}
 	}
@@ -179,7 +188,7 @@ public class App extends JFrame implements KeyListener, ActionListener, GameOver
 	public void gameMultiIsOver() {
 		String[] options = {"Rejouer", "Sortir"};
 		
-		stats.addScoreSolo(runGameMulti.getGrille().getScore());
+		stats.addScoreMulti(runGameMulti.getGrille().getScore());
 		stats.update();
 		stats.saveToFile();
 		
@@ -190,25 +199,29 @@ public class App extends JFrame implements KeyListener, ActionListener, GameOver
 		if(rang == 0){
 			trunGame = new Thread(runGameMulti);
 			runGameMulti.getGrille().cleanGrille();
-	    	frameLayout.show(framePanel, "grille");
+	    	frameLayout.show(framePanel, "grilleMulti");
+	    	runGameMulti.getGrille().resetScore();
 	    	this.requestFocus();
 	    	trunGame.start();
 		}
 		if(rang == 1){
+			try {
+				runGameMulti.getThread().stop();
+				connexion.getSocket().close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			connexion.getStatut().setText("");
+			connexion.getStart().setVisible(false);
 			frameLayout.show(framePanel, "accueil");
+			runGameMulti.getGrille().resetScore();
 	    	this.requestFocus();
 		}
 	}
 	
 	@Override
 	public void connected(){
-		try {
-			in = new BufferedReader(new InputStreamReader(connexion.socket.getInputStream()));
-			out = new PrintWriter(connexion.socket.getOutputStream());
-		} catch (IOException e) {
-		e.printStackTrace();
-		}
-	runGameMulti = new RunGameMulti(connexion.socket);
+	runGameMulti = new RunGameMulti(connexion.getSocket());
 	runGameMulti.addGameOverListener(this);
 	framePanel.add(runGameMulti.getGrille(), "grilleMulti");
 	}

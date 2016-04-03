@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public class Reception implements Runnable{
-	public static BufferedReader in;
+	private BufferedReader in;
 	private RunGameMulti runGame;
 	
 	public Reception(BufferedReader in , RunGameMulti runGame){
@@ -13,15 +13,20 @@ public class Reception implements Runnable{
 	}
 	
 	public void run(){
+		int type = 1;
 		while(true) {
 			try {
 				String message = in.readLine();
 				System.out.println(message);
-				int type = (int) ( 1 + ( Math.random() * (2 - 1) ) );
+				System.out.println(type);
 				if(type == 1)
 					runGame.fallDown();
-				if(type == 2)
+				if(type == 2){
 					runGame.changePiece();
+					type = 0;
+				}
+				
+				type ++;
 				
 			} catch (IOException e) {
 				e.printStackTrace();

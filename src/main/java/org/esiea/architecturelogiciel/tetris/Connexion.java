@@ -20,7 +20,7 @@ public class Connexion extends JPanel {
 	private	JLabel pseudoLabel, ipServerLabel, statut; 
     private JTextField pseudo, ipServer;
     private JButton connect, start, retour;
-    public static Socket socket;
+    private Socket socket;
     private final EventListenerList listeners = new EventListenerList();
     
     public Connexion() {
@@ -33,7 +33,7 @@ public class Connexion extends JPanel {
 		pseudo.setBounds(110, 80, 220, 30);
 		pseudo.setFont(new Font("Arial", Font.BOLD, 15));
 		
-		ipServerLabel = new JLabel("IP Seveur", SwingConstants.CENTER);
+		ipServerLabel = new JLabel("IP Serveur", SwingConstants.CENTER);
 		ipServerLabel.setForeground(new Color(0,102,255));
 		ipServerLabel.setBounds(10, 130, 100, 30);
 		ipServerLabel.setFont(new Font("Arial", Font.BOLD, 15));
@@ -115,4 +115,6 @@ public class Connexion extends JPanel {
     public JButton getConnect() { return connect; }
 	public JButton getStart() { return start; }
 	public JButton getRetour() { return retour; }
+	public JLabel getStatut() { return statut; }
+	public Socket getSocket() {  return socket; }
 }

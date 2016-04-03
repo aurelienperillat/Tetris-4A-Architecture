@@ -14,13 +14,15 @@ public class RunGameMulti implements Runnable{
     private int [][] currentPiece;
     private int posX,posY,position;
     private final EventListenerList listeners = new EventListenerList();
-    public static BufferedReader in;
-	public static PrintWriter out;
+    private BufferedReader in;
+	private PrintWriter out;
+	private Thread t;
     
     public RunGameMulti(Socket s){
     	grille = new Grille();
     	pieceGetter = new Piece();
     	currentPiece = new int[4][16];
+    	
 		try {
 			in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			out = new PrintWriter(s.getOutputStream());
@@ -32,7 +34,7 @@ public class RunGameMulti implements Runnable{
 	public void run() {
 		boolean needPiece = true;
 		boolean down;
-		Thread t = new Thread(new Reception(in,this));
+		t = new Thread(new Reception(in,this));
 		t.start();
 		
 		while (true){
@@ -160,5 +162,6 @@ public class RunGameMulti implements Runnable{
 	public int getPosX() { return posX; }
 	public int getPosY() { return posY; }
 	public int getPosition() { return position; }
+	public Thread getThread() { return t; }
 
 }
