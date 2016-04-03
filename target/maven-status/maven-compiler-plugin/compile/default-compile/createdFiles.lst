@@ -1,4 +1,10 @@
+org\esiea\architecturelogiciel\tetris\RunGameMulti.class
 org\esiea\architecturelogiciel\tetris\RunGame.class
 org\esiea\architecturelogiciel\tetris\Piece.class
 org\esiea\architecturelogiciel\tetris\Grille.class
 org\esiea\architecturelogiciel\tetris\App.class
+org\esiea\architecturelogiciel\tetris\Connexion.class
+org\esiea\architecturelogiciel\tetris\Statistiques.class
+org\esiea\architecturelogiciel\tetris\GameOverListener.class
+org\esiea\architecturelogiciel\tetris\Accueil.class
+org\esiea\architecturelogiciel\tetris\Reception.class
